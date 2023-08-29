@@ -10,6 +10,7 @@ interface Props {
 
 const Produtores: React.FC<Props> = ({topo: Topo}) => {
   const [titulo, list] = useProdutor()
+  let newList = list as ILista[]
 
   const topoList = () => {
     return (
@@ -20,10 +21,19 @@ const Produtores: React.FC<Props> = ({topo: Topo}) => {
     );
   };
 
+  const listOrderBy = newList.sort( (a: ILista, b: ILista): number => {
+      if(a.nome > b.nome) {
+        return 1
+      } else if( a.nome < b.nome) {
+        return -1
+      }
+      return 0
+  }) 
+
   return (
     <>
       <FlatList
-        data={ list as ILista[]}
+        data={ listOrderBy as ILista[]}
         renderItem={({item} ) => <Produtor {...item } />}
         keyExtractor={item => item.nome}
         ListHeaderComponent={() => topoList()}
